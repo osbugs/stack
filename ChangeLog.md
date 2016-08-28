@@ -8,6 +8,10 @@ Major changes:
 
 Behavior changes:
 
+* Use a stack-installed, isolated GHC by default, ignoring any system
+  installations (overridable with `--system-ghc`).
+  [#2221](https://github.com/commercialhaskell/stack/issues/2221)
+
 Other enhancements:
 
 Bug fixes:

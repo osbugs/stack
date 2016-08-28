@@ -251,7 +251,7 @@ configOptsParser hide0 =
     <*> nixOptsParser True
     <*> firstBoolFlags
             "system-ghc"
-            "using the system installed GHC (on the PATH) if available and a matching version"
+            "using the system installed GHC (on the PATH) if available and a matching version. Disabled by default"
             hide
     <*> firstBoolFlags
             "install-ghc"
@@ -861,7 +861,7 @@ ghcVariantParser hide =
         readGHCVariant
         (long "ghc-variant" <> metavar "VARIANT" <>
          help
-             "Specialized GHC variant, e.g. integersimple (implies --no-system-ghc)" <>
+             "Specialized GHC variant, e.g. integersimple" <>
          hideMods hide
         )
   where
