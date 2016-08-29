@@ -46,7 +46,7 @@ setupParser = SetupCmdOpts
                       "The default is to install the version implied by the resolver.")))
     <*> OA.boolFlags False
             "reinstall"
-            "reinstalling GHC, even if available"
+            "reinstalling GHC, even if available (incompatible with --system-ghc)"
             OA.idm
     <*> OA.boolFlags False
             "upgrade-cabal"

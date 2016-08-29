@@ -437,6 +437,8 @@ Specify a variant binary distribution of GHC to use.  Known values:
   [setup-info](#setup-info) so `stack setup` knows where to download it, or
   pass the `stack setup --ghc-bindist` argument on the command-line
 
+This option is incompatible with `system-ghc: true`.
+
 ### setup-info
 
 (Since 0.1.5)

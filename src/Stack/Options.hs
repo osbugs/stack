@@ -861,7 +861,7 @@ ghcVariantParser hide =
         readGHCVariant
         (long "ghc-variant" <> metavar "VARIANT" <>
          help
-             "Specialized GHC variant, e.g. integersimple" <>
+             "Specialized GHC variant, e.g. integersimple (incompatible with --system-ghc)" <>
          hideMods hide
         )
   where
