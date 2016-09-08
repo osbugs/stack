@@ -8,6 +8,10 @@ Major changes:
 
 Behavior changes:
 
+* If a remote package is specified (such as a Git repo) without an explicit
+  `extra-dep` setting, a warning is given to the user to provide one
+  explicitly.
+
 Other enhancements:
 
 * Add`support for `system-ghc` and `install-ghc` fields to `stack config set` command.

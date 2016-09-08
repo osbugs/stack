@@ -530,11 +530,15 @@ data LoadConfig m = LoadConfig
     }
 
 data PackageEntry = PackageEntry
-    { peExtraDep :: !TreatLikeExtraDep
+    { peExtraDepMaybe :: !(Maybe TreatLikeExtraDep)
     , peLocation :: !PackageLocation
     , peSubdirs :: ![FilePath]
     }
     deriving Show
+
+-- | Perform defaulting of peExtraDepMaybe
+peExtraDepDef :: PackageEntry -> TreatLikeExtraDep
+peExtraDepDef = fromMaybe False . peExtraDepMaybe
 
 -- | Should a package be treated just like an extra-dep?
 --
@@ -547,11 +551,11 @@ data PackageEntry = PackageEntry
 type TreatLikeExtraDep = Bool
 
 instance ToJSON PackageEntry where
-    toJSON pe | not (peExtraDep pe) && null (peSubdirs pe) =
+    toJSON pe | not (peExtraDepDef pe) && null (peSubdirs pe) =
         toJSON $ peLocation pe
-    toJSON pe = object
-        [ "extra-dep" .= peExtraDep pe
-        , "location" .= peLocation pe
+    toJSON pe = object $
+        (maybe id (\e -> (("extra-dep" .= e):)) (peExtraDepMaybe pe))
+        [ "location" .= peLocation pe
         , "subdirs" .= peSubdirs pe
         ]
 instance FromJSON (WithJSONWarnings PackageEntry) where
@@ -559,12 +563,12 @@ instance FromJSON (WithJSONWarnings PackageEntry) where
         WithJSONWarnings loc _ <- parseJSON $ String t
         return $ noJSONWarnings
             PackageEntry
-                { peExtraDep = False
+                { peExtraDepMaybe = Nothing
                 , peLocation = loc
                 , peSubdirs = []
                 }
     parseJSON v = withObjectWarnings "PackageEntry" (\o -> PackageEntry
-        <$> o ..:? "extra-dep" ..!= False
+        <$> o ..:? "extra-dep"
         <*> jsonSubWarnings (o ..: "location")
         <*> o ..:? "subdirs" ..!= []) v
 
@@ -1497,7 +1501,7 @@ instance FromJSON (WithJSONWarnings ProjectAndConfigMonoid) where
 -- | A PackageEntry for the current directory, used as a default
 packageEntryCurrDir :: PackageEntry
 packageEntryCurrDir = PackageEntry
-    { peExtraDep = False
+    { peExtraDepMaybe = Nothing
     , peLocation = PLFilePath "."
     , peSubdirs = []
     }
