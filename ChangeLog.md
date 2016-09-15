@@ -20,6 +20,9 @@ Other enhancements:
   16.10) and adjusts the GHC `configure` options accordingly.
   [#2542](https://github.com/commercialhaskell/stack/issues/2542)
 * Upload to Hackage with HTTP digest instead of HTTP basic.
+* Add the `dump-logs` config option and `--dump-logs` command line
+  option to get full build output on the
+  console. [#426](https://github.com/commercialhaskell/stack/issues/426)
 
 Bug fixes:
 
